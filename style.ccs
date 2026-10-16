@@ -1,0 +1,419 @@
+/* Base Resets & Variables */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+  --primary-color: #ff3b30;
+  --primary-hover: #e02d22;
+  --accent-color: #ff9500;
+  --bg-color: #121212;
+  --card-bg: rgba(30, 30, 30, 0.85);
+  --text-color: #ffffff;
+  --text-secondary: #b0b0b0;
+  --border-color: #333333;
+  --whatsapp-green: #25d366;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 30px;
+}
+
+/* Watermark Background Logo Across All Pages */
+.watermark-bg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 450px;
+  height: 90vw;
+  max-height: 450px;
+  background-image: url('108378.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.08; /* Subtle semi-transparent watermark */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Utility Helpers */
+.hidden { display: none !important; }
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Header & Tabs */
+.app-header {
+  position: sticky;
+  top: 0;
+  background: rgba(18, 18, 18, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 10;
+  padding: 10px 15px 5px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--accent-color);
+}
+
+.brand h1 {
+  font-size: 1.2rem;
+  color: var(--accent-color);
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+
+.nav-tabs::-webkit-scrollbar { display: none; }
+
+.nav-btn {
+  background: #252525;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-btn.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  font-weight: bold;
+}
+
+.badge {
+  background: var(--accent-color);
+  color: #000;
+  font-weight: bold;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 4px;
+}
+
+/* Main Layout */
+.container {
+  position: relative;
+  z-index: 1;
+  padding: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.page-content {
+  display: none;
+}
+
+.page-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: var(--accent-color);
+}
+
+/* Page 1: Hero Card */
+.hero-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 25px 20px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.hero-logo {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid var(--accent-color);
+}
+
+.hero-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.tagline {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.info-box {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: left;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+
+.info-item .icon { font-size: 1.2rem; }
+
+.cta-btn {
+  width: 100%;
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Product Cards */
+.product-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  display: flex;
+  gap: 12px;
+}
+
+.product-img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 10px 10px 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.product-info h3 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.ingredients {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.2;
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.price {
+  font-weight: bold;
+  color: var(--accent-color);
+  font-size: 1.05rem;
+}
+
+.add-btn {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Cart Page */
+.cart-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.cart-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-item-details h4 {
+  font-size: 0.95rem;
+}
+
+.cart-item-details p {
+  font-size: 0.8rem;
+  color: var(--accent-color);
+}
+
+.cart-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-controls button {
+  background: #333;
+  color: #fff;
+  border: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cart-summary {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+}
+
+.summary-line.highlight {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  border-top: 1px solid var(--border-color);
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+/* Forms */
+.checkout-form {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+}
+
+.checkout-form h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: #1e1e1e;
+  border: 1px solid var(--border-color);
+  color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.whatsapp-btn {
+  width: 100%;
+  background: var(--whatsapp-green);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Auth Card Error */
+.error-card {
+  background: var(--card-bg);
+  padding: 30px 20px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 320px;
+  border: 1px solid var(--primary-color);
+}
+
+.error-card h2 {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.user-id-display {
+  margin-top: 15px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
