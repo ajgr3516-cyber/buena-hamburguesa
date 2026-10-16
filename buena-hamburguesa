@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Buena Hamburguesa - Menú Digital</title>
+  
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- CSS Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Watermark Background Logo -->
+  <div class="watermark-bg"></div>
+
+  <!-- Screen 0: Authorization Lock -->
+  <div id="unauthorized-screen" class="screen flex-center hidden">
+    <div class="card error-card">
+      <h2>Acceso No Autorizado 🚫</h2>
+      <p>Lo sentimos, tu ID de Telegram no está registrado en la lista de usuarios autorizados.</p>
+      <p class="user-id-display">Tu ID: <span id="user-tg-id">Cargando...</span></p>
+    </div>
+  </div>
+
+  <!-- Main App Content (Hidden until authorized) -->
+  <div id="app-content" class="hidden">
+
+    <!-- Header & Navigation Bar -->
+    <header class="app-header">
+      <div class="brand">
+        <img src="108378.jpg" alt="Buena Hamburguesa Logo" class="brand-logo">
+        <h1>Buena Hamburguesa</h1>
+      </div>
+      <nav class="nav-tabs">
+        <button class="nav-btn active" onclick="switchPage(1)">🏠 Inicio</button>
+        <button class="nav-btn" onclick="switchPage(2)">🌭 Perros</button>
+        <button class="nav-btn" onclick="switchPage(3)">🍔 Burgers</button>
+        <button class="nav-btn" onclick="switchPage(4)">🥤 Bebidas</button>
+        <button class="nav-btn" onclick="switchPage(5)">🍟 Postres</button>
+        <button class="nav-btn cart-tab-btn" onclick="switchPage(6)">
+          🛒 Carrito <span id="cart-badge" class="badge">0</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+
+      <!-- PAGE 1: INICIO -->
+      <section id="page-1" class="page-content active">
+        <div class="hero-card">
+          <img src="108378.jpg" alt="Buena Hamburguesa" class="hero-logo">
+          <h2>¡Bienvenidos a Buena Hamburguesa! 🍔✨</h2>
+          <p class="tagline">El mejor sabor en perros, hamburguesas y postres directos a tu mesa.</p>
+          
+          <div class="info-box">
+            <div class="info-item">
+              <span class="icon">🕒</span>
+              <div>
+                <strong>Horario de Atención:</strong>
+                <p>7:00 PM a 1:00 AM</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="icon">📍</span>
+              <div>
+                <strong>Dirección:</strong>
+                <p id="business-address">xxxxxxxx</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="cta-btn" onclick="switchPage(3)">Ver Menú de Hamburguesas 🍔</button>
+        </div>
+      </section>
+
+      <!-- PAGE 2: PERROS CALIENTES -->
+      <section id="page-2" class="page-content">
+        <h2 class="section-title">🌭 Perros Calientes</h2>
+        <div class="product-grid">
+          
+          <div class="product-card">
+            <img src="108369.jpg" alt="Perro caliente sencillo" class="product-img">
+            <div class="product-info">
+              <h3>Perro Caliente Sencillo</h3>
+              <p class="ingredients">Salchicha, zanahoria, papa, repollo, queso y salsas.</p>
+              <div class="product-footer">
+                <span class="price">$1.50</span>
+                <button class="add-btn" onclick="addToCart('Perro Caliente Sencillo', 1.50, '108369.jpg')">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="108371.jpg" alt="Perro especial" class="product-img">
+            <div class="product-info">
+              <h3>Perro Especial</h3>
+              <p class="ingredients">Salchicha, repollo, zanahoria, papitas, tocineta, queso amarillo y salsas.</p>
+              <div class="product-footer">
+                <span class="price">$3.00</span>
+                <button class="add-btn" onclick="addToCart('Perro Especial', 3.00, '108371.jpg')">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PAGE 3: HAMBURGUESAS -->
+      <section id="page-3" class="page-content">
+        <h2 class="section-title">🍔 Hamburguesas</h2>
+        <div class="product-grid">
+
+          <div class="product-card">
+            <img src="108365.jpg" alt="Hamburguesa sencilla" class="product-img">
+            <div class="product-info">
+              <h3>Hamburguesa Sencilla</h3>
+              <p class="ingredients">150g de carne, lechuga, cebolla, tomate, jamón, queso amarillo y salsas.</p>
+              <div class="product-footer">
+                <span class="price">$4.50</span>
+                <button class="add-btn" onclick="addToCart('Hamburguesa Sencilla', 4.50, '108365.jpg')">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="108366.jpg" alt="Hamburguesa doble carne" class="product-img">
+            <div class="product-info">
+              <h3>Hamburguesa Doble Carne</h3>
+              <p class="ingredients">300g de carne, cebolla, tomate, lechuga, jamón, queso y salsas.</p>
+              <div class="product-footer">
+                <span class="price">$6.00</span>
+                <button class="add-btn" onclick="addToCart('Hamburguesa Doble Carne', 6.00, '108366.jpg')">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PAGE 4: BEBIDAS -->
+      <section id="page-4" class="page-content">
+        <h2 class="section-title">🥤 Bebidas y Malteadas</h2>
+        <div class="product-grid">
+
+          <div class="product-card">
+            <img src="108847.jpg" alt="Refresco de 2 litros" class="product-img">
+            <div class="product-info">
+              <h3>Refresco de 2 Litros</h3>
+              <p class="ingredients">Refresco familiar sabor original de 2L.</p>
+              <div class="product-footer">
+                <span class="price">$2.50</span>
+                <button class="add-btn" onclick="addToCart('Refresco de 2L', 2.50, '108847.jpg')">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="108375.jpg" alt="Malteadas" class="product-img">
+            <div class="product-info">
+              <h3>Malteadas Cremosas</h3>
+              <p class="ingredients">Variedad de sabores (fresa, chocolate, vainilla) con crema batida.</p>
+              <div class="product-footer">
+                <span class="price">$2.00</span>
+                <button class="add-btn" onclick="addToCart('Malteada Cremosa', 2.00, '108375.jpg')">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PAGE 5: PAPAS Y POSTRES -->
+      <section id="page-5" class="page-content">
+        <h2 class="section-title">🍰 Papas y Postres</h2>
+        <div class="product-grid">
+
+          <div class="product-card">
+            <img src="108376.jpg" alt="Marquesa de chocolate" class="product-img">
+            <div class="product-info">
+              <h3>Marquesa de Chocolate</h3>
+              <p class="ingredients">Deliciosa marquesa tradicional de chocolate con capas de galleta.</p>
+              <div class="product-footer">
+                <span class="price">$3.00</span>
+                <button class="add-btn" onclick="addToCart('Marquesa de Chocolate', 3.00, '108376.jpg')">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="108377.jpg" alt="Torta 3 leches" class="product-img">
+            <div class="product-info">
+              <h3>Torta 3 Leches</h3>
+              <p class="ingredients">Torta tres leches húmeda cubierta con crema y tope de arequipe/caramelo.</p>
+              <div class="product-footer">
+                <span class="price">$3.00</span>
+                <button class="add-btn" onclick="addToCart('Torta 3 Leches', 3.00, '108377.jpg')">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PAGE 6: CHECKOUT / DELIVERY / PAGO -->
+      <section id="page-6" class="page-content">
+        <h2 class="section-title">🛒 Confirmar Pedido</h2>
+        
+        <div class="cart-container">
+          <div id="cart-items" class="cart-items-list">
+            <!-- Items added dynamically -->
+          </div>
+
+          <div class="cart-summary">
+            <div class="summary-line">
+              <span>Subtotal:</span>
+              <span id="cart-subtotal">$0.00</span>
+            </div>
+            <div class="summary-line highlight">
+              <span>Total a Pagar:</span>
+              <span id="cart-total">$0.00</span>
+            </div>
+          </div>
+
+          <!-- Form Details -->
+          <form id="checkout-form" class="checkout-form" onsubmit="submitOrder(event)">
+            <h3>📋 Datos para la Entrega</h3>
+            
+            <div class="form-group">
+              <label for="client-name">Nombre Completo:</label>
+              <input type="text" id="client-name" required placeholder="Ej: Antonio González">
+            </div>
+
+            <div class="form-group">
+              <label for="delivery-option">Opción de Entrega:</label>
+              <select id="delivery-option" required onchange="toggleDeliveryAddress()">
+                <option value="Delivery">🛵 Delivery</option>
+                <option value="Pick-up">🏃 Retiro en Local</option>
+              </select>
+            </div>
+
+            <div class="form-group" id="address-group">
+              <label for="client-address">Dirección de Entrega:</label>
+              <textarea id="client-address" rows="2" placeholder="Indica tu dirección exacta..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="payment-method">Método de Pago:</label>
+              <select id="payment-method" required>
+                <option value="Pago Móvil">📱 Pago Móvil</option>
+                <option value="Zelle">💵 Zelle</option>
+                <option value="Efectivo / Divisas">💵 Efectivo ($ / Bs)</option>
+                <option value="Binance Pay">🟡 Binance Pay</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="order-notes">Notas / Observaciones:</label>
+              <input type="text" id="order-notes" placeholder="Ej: Perro sin cebolla, refresco frío...">
+            </div>
+
+            <button type="submit" class="whatsapp-btn">
+              💬 Enviar Pedido por WhatsApp
+            </button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- App JavaScript Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
